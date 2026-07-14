@@ -8,7 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js">
     </script>
     <style>
-        /* ===== ROOT VARIABLES (same dark theme) ===== */
+        /* ----- same CSS as before, no changes ----- */
         :root {
             --primary-green: #10b981;
             --primary-red: #ef4444;
@@ -22,596 +22,106 @@
             --border-radius: 12px;
             --box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
         }
-
-        /* ===== RESET & BASE ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        body {
-            background-color: var(--dark-bg);
-            color: var(--light-text);
-            line-height: 1.6;
-            padding-bottom: 80px;
-            transition: all 0.3s ease;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 15px;
-        }
-
-        /* ===== HEADER ===== */
-        header {
-            background: linear-gradient(135deg, var(--dark-surface), #1a365d);
-            color: var(--light-text);
-            padding: 15px 0;
-            text-align: center;
-            border-radius: 0 0 var(--border-radius) var(--border-radius);
-            margin-bottom: 15px;
-            box-shadow: var(--box-shadow);
-            position: relative;
-            overflow: hidden;
-        }
-        header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary-green), var(--accent-color), var(--primary-red));
-        }
-        h1 {
-            font-size: 1.5rem;
-            font-weight: 700;
-        }
-
-        /* ===== SUMMARY CARD ===== */
-        .summary-card {
-            background: var(--dark-card);
-            border-radius: var(--border-radius);
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: var(--box-shadow);
-            border: 1px solid var(--dark-border);
-        }
-        .summary-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 0;
-            border-bottom: 1px solid var(--dark-border);
-        }
-        .summary-row:last-child {
-            border-bottom: none;
-        }
-        .summary-label {
-            color: var(--muted-text);
-            font-size: 0.9rem;
-        }
-        .summary-amount {
-            font-weight: bold;
-            font-size: 1rem;
-        }
-        .positive {
-            color: var(--primary-green);
-        }
-        .negative {
-            color: var(--primary-red);
-        }
-
-        /* ===== FILTERS (collapsible) ===== */
-        .filters-header {
-            background: var(--dark-card);
-            border-radius: var(--border-radius);
-            padding: 15px;
-            margin-bottom: 5px;
-            box-shadow: var(--box-shadow);
-            border: 1px solid var(--dark-border);
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .filters-header h2 {
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin: 0;
-        }
-        .filters-content {
-            background: var(--dark-card);
-            border-radius: var(--border-radius);
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: var(--box-shadow);
-            border: 1px solid var(--dark-border);
-            display: none;
-        }
-        .filters-content.show {
-            display: block;
-        }
-        .filter-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 10px;
-        }
-        @media (min-width: 480px) {
-            .filter-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        @media (min-width: 768px) {
-            .filter-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
-        }
-        .filter-item {
-            margin-bottom: 10px;
-        }
-        .filter-item label {
-            display: block;
-            margin-bottom: 5px;
-            font-size: 0.9rem;
-            color: var(--muted-text);
-        }
-        .filter-item select,
-        .filter-item input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid var(--dark-border);
-            border-radius: 8px;
-            font-size: 0.9rem;
-            background: var(--dark-surface);
-            color: var(--light-text);
-            transition: border-color 0.3s ease;
-        }
-        .filter-item select:focus,
-        .filter-item input:focus {
-            outline: none;
-            border-color: var(--accent-color);
-        }
-
-        /* ===== BUTTONS ===== */
-        .action-buttons {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        .btn {
-            padding: 14px;
-            border: none;
-            border-radius: var(--border-radius);
-            font-size: 0.9rem;
-            font-weight: bold;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-            box-shadow: var(--box-shadow);
-        }
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
-        }
-        .btn:active {
-            transform: translateY(0);
-        }
-        .btn-green {
-            background: linear-gradient(135deg, var(--primary-green), #059669);
-            color: white;
-        }
-        .btn-red {
-            background: linear-gradient(135deg, var(--primary-red), #dc2626);
-            color: white;
-        }
-        .btn-secondary {
-            background: var(--dark-card);
-            color: var(--light-text);
-            border: 1px solid var(--dark-border);
-        }
-        .btn-secondary:hover {
-            background: var(--dark-surface);
-        }
-        .btn-small {
-            padding: 8px 12px;
-            font-size: 0.8rem;
-        }
-
-        .utility-buttons {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 8px;
-            margin-bottom: 15px;
-        }
-        @media (min-width: 480px) {
-            .utility-buttons {
-                grid-template-columns: repeat(5, 1fr);
-            }
-        }
-
-        /* ===== ENTRIES SECTION ===== */
-        .entries-section {
-            background: var(--dark-card);
-            border-radius: var(--border-radius);
-            padding: 15px;
-            box-shadow: var(--box-shadow);
-            border: 1px solid var(--dark-border);
-        }
-        .entries-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            gap: 10px;
-        }
-        .entries-header h2 {
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex: 1;
-        }
-        .bulk-actions {
-            display: none;
-            gap: 8px;
-            align-items: center;
-        }
-        .bulk-actions.show {
-            display: flex;
-        }
-        .entries-list {
-            max-height: 400px;
-            overflow-y: auto;
-            border-radius: 8px;
-        }
-
-        /* ===== ENTRY ITEM ===== */
-        .entry-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 12px;
-            border-bottom: 1px solid var(--dark-border);
-            transition: background-color 0.2s ease;
-            align-items: center;
-        }
-        .entry-item:hover {
-            background: var(--dark-surface);
-        }
-        .entry-item:last-child {
-            border-bottom: none;
-        }
-        .entry-item.selected {
-            background: rgba(99, 102, 241, 0.1);
-            border-left: 3px solid var(--accent-color);
-        }
-        .entry-checkbox {
-            margin-right: 10px;
-        }
-        .entry-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex: 1;
-        }
-        .entry-details {
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-        }
-        .entry-date {
-            font-size: 0.75rem;
-            color: var(--muted-text);
-        }
-        .entry-category {
-            font-weight: bold;
-            margin: 3px 0;
-            color: var(--light-text);
-            font-size: 0.9rem;
-        }
-        .entry-for {
-            font-size: 0.8rem;
-            color: var(--accent-color);
-            font-style: italic;
-        }
-        .entry-remarks {
-            color: var(--muted-text);
-            font-size: 0.8rem;
-        }
-        .entry-amount {
-            font-weight: bold;
-            font-size: 1rem;
-            margin-right: 10px;
-            text-align: right;
-        }
-        .amount-in {
-            color: var(--primary-green);
-        }
-        .amount-out {
-            color: var(--primary-red);
-        }
-        .entry-actions {
-            display: flex;
-            gap: 5px;
-        }
-        .entry-actions button {
-            background: none;
-            border: none;
-            color: var(--muted-text);
-            cursor: pointer;
-            padding: 5px;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-            font-size: 0.8rem;
-        }
-        .entry-actions button:hover {
-            color: var(--light-text);
-            background: var(--dark-border);
-        }
-        .edit-btn:hover {
-            color: var(--primary-green) !important;
-        }
-        .delete-btn:hover {
-            color: var(--primary-red) !important;
-        }
-
-        /* ===== MODALS ===== */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            backdrop-filter: blur(5px);
-        }
-        .modal-content {
-            background: var(--dark-card);
-            border-radius: var(--border-radius);
-            width: 100%;
-            max-width: 500px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            overflow: hidden;
-            border: 1px solid var(--dark-border);
-            animation: modalAppear 0.3s ease;
-        }
-        @keyframes modalAppear {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        .modal-header {
-            padding: 15px 20px;
-            background: var(--dark-surface);
-            color: var(--light-text);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--dark-border);
-        }
-        .modal-header h2 {
-            font-size: 1.2rem;
-        }
-        .close-btn {
-            background: none;
-            border: none;
-            color: var(--muted-text);
-            font-size: 1.3rem;
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-        .close-btn:hover {
-            color: var(--light-text);
-        }
-        .modal-body {
-            padding: 20px;
-        }
-
-        /* ===== FORM ===== */
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 6px;
-            font-weight: 500;
-            color: var(--muted-text);
-            font-size: 0.9rem;
-        }
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid var(--dark-border);
-            border-radius: 8px;
-            font-size: 0.9rem;
-            background: var(--dark-surface);
-            color: var(--light-text);
-            transition: border-color 0.3s ease;
-        }
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--accent-color);
-        }
-        .form-group textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
-        .form-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 8px;
-            margin-top: 15px;
-        }
-
-        /* ===== CATEGORIES / FOR ITEMS LIST ===== */
-        .items-list {
-            max-height: 300px;
-            overflow-y: auto;
-            margin: 15px 0;
-            border-radius: 8px;
-            border: 1px solid var(--dark-border);
-        }
-        .item-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 12px;
-            border-bottom: 1px solid var(--dark-border);
-            transition: background-color 0.2s ease;
-        }
-        .item-row:hover {
-            background: var(--dark-surface);
-        }
-        .item-row:last-child {
-            border-bottom: none;
-        }
-        .item-actions {
-            display: flex;
-            gap: 8px;
-        }
-        .item-actions button {
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: var(--muted-text);
-            transition: color 0.3s ease;
-            font-size: 0.8rem;
-        }
-        .item-actions button:hover {
-            color: var(--light-text);
-        }
-
-        /* ===== FOOTER ===== */
-        footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: var(--dark-surface);
-            color: var(--muted-text);
-            text-align: center;
-            padding: 10px;
-            font-size: 0.7rem;
-            border-top: 1px solid var(--dark-border);
-        }
-
-        /* ===== NOTIFICATION ===== */
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 12px 16px;
-            border-radius: var(--border-radius);
-            color: white;
-            font-weight: bold;
-            z-index: 1100;
-            display: none;
-            box-shadow: var(--box-shadow);
-            animation: slideIn 0.3s ease;
-            font-size: 0.9rem;
-        }
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateX(100%);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-        .notification.success {
-            background: linear-gradient(135deg, var(--primary-green), #059669);
-        }
-        .notification.error {
-            background: linear-gradient(135deg, var(--primary-red), #dc2626);
-        }
-
-        /* ===== LOADING ===== */
-        .loading {
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            border: 2px solid rgba(255, 255, 255, .3);
-            border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 1s ease-in-out infinite;
-        }
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        .no-entries {
-            text-align: center;
-            padding: 30px 15px;
-            color: var(--muted-text);
-        }
-        .toggle-icon {
-            transition: transform 0.3s ease;
-        }
-        .toggle-icon.rotated {
-            transform: rotate(180deg);
-        }
-
-        /* ===== SCROLLBAR ===== */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: var(--dark-surface);
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--dark-border);
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--accent-color);
-        }
-
-        /* ===== RESPONSIVE TWEAKS ===== */
-        @media (max-width: 480px) {
-            .utility-buttons {
-                grid-template-columns: 1fr 1fr;
-            }
-            .entry-content {
-                flex-wrap: wrap;
-            }
-            .entry-amount {
-                margin-right: 0;
-                width: 100%;
-                text-align: left;
-                margin-top: 4px;
-            }
-        }
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; }
+        body { background-color:var(--dark-bg); color:var(--light-text); line-height:1.6; padding-bottom:80px; transition:all 0.3s ease; }
+        .container { max-width:800px; margin:0 auto; padding:15px; }
+        header { background:linear-gradient(135deg,var(--dark-surface),#1a365d); color:var(--light-text); padding:15px 0; text-align:center; border-radius:0 0 var(--border-radius) var(--border-radius); margin-bottom:15px; box-shadow:var(--box-shadow); position:relative; overflow:hidden; }
+        header::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,var(--primary-green),var(--accent-color),var(--primary-red)); }
+        h1 { font-size:1.5rem; font-weight:700; }
+        .summary-card { background:var(--dark-card); border-radius:var(--border-radius); padding:15px; margin-bottom:15px; box-shadow:var(--box-shadow); border:1px solid var(--dark-border); }
+        .summary-row { display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--dark-border); }
+        .summary-row:last-child { border-bottom:none; }
+        .summary-label { color:var(--muted-text); font-size:0.9rem; }
+        .summary-amount { font-weight:bold; font-size:1rem; }
+        .positive { color:var(--primary-green); }
+        .negative { color:var(--primary-red); }
+        .filters-header { background:var(--dark-card); border-radius:var(--border-radius); padding:15px; margin-bottom:5px; box-shadow:var(--box-shadow); border:1px solid var(--dark-border); cursor:pointer; display:flex; justify-content:space-between; align-items:center; }
+        .filters-header h2 { font-size:1.1rem; display:flex; align-items:center; gap:10px; margin:0; }
+        .filters-content { background:var(--dark-card); border-radius:var(--border-radius); padding:15px; margin-bottom:15px; box-shadow:var(--box-shadow); border:1px solid var(--dark-border); display:none; }
+        .filters-content.show { display:block; }
+        .filter-grid { display:grid; grid-template-columns:1fr; gap:10px; }
+        @media (min-width:480px) { .filter-grid { grid-template-columns:repeat(2,1fr); } }
+        @media (min-width:768px) { .filter-grid { grid-template-columns:repeat(4,1fr); } }
+        .filter-item { margin-bottom:10px; }
+        .filter-item label { display:block; margin-bottom:5px; font-size:0.9rem; color:var(--muted-text); }
+        .filter-item select, .filter-item input { width:100%; padding:10px; border:1px solid var(--dark-border); border-radius:8px; font-size:0.9rem; background:var(--dark-surface); color:var(--light-text); transition:border-color 0.3s ease; }
+        .filter-item select:focus, .filter-item input:focus { outline:none; border-color:var(--accent-color); }
+        .action-buttons { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:15px; }
+        .btn { padding:14px; border:none; border-radius:var(--border-radius); font-size:0.9rem; font-weight:bold; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; transition:all 0.3s ease; box-shadow:var(--box-shadow); }
+        .btn:hover { transform:translateY(-2px); box-shadow:0 10px 15px -3px rgba(0,0,0,0.4); }
+        .btn:active { transform:translateY(0); }
+        .btn-green { background:linear-gradient(135deg,var(--primary-green),#059669); color:white; }
+        .btn-red { background:linear-gradient(135deg,var(--primary-red),#dc2626); color:white; }
+        .btn-secondary { background:var(--dark-card); color:var(--light-text); border:1px solid var(--dark-border); }
+        .btn-secondary:hover { background:var(--dark-surface); }
+        .btn-small { padding:8px 12px; font-size:0.8rem; }
+        .utility-buttons { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-bottom:15px; }
+        @media (min-width:480px) { .utility-buttons { grid-template-columns:repeat(5,1fr); } }
+        .entries-section { background:var(--dark-card); border-radius:var(--border-radius); padding:15px; box-shadow:var(--box-shadow); border:1px solid var(--dark-border); }
+        .entries-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; gap:10px; }
+        .entries-header h2 { font-size:1.1rem; display:flex; align-items:center; gap:8px; flex:1; }
+        .bulk-actions { display:none; gap:8px; align-items:center; }
+        .bulk-actions.show { display:flex; }
+        .entries-list { max-height:400px; overflow-y:auto; border-radius:8px; }
+        .entry-item { display:flex; justify-content:space-between; padding:12px; border-bottom:1px solid var(--dark-border); transition:background-color 0.2s ease; align-items:center; }
+        .entry-item:hover { background:var(--dark-surface); }
+        .entry-item:last-child { border-bottom:none; }
+        .entry-item.selected { background:rgba(99,102,241,0.1); border-left:3px solid var(--accent-color); }
+        .entry-checkbox { margin-right:10px; }
+        .entry-content { display:flex; justify-content:space-between; align-items:center; flex:1; }
+        .entry-details { display:flex; flex-direction:column; flex:1; }
+        .entry-date { font-size:0.75rem; color:var(--muted-text); }
+        .entry-category { font-weight:bold; margin:3px 0; color:var(--light-text); font-size:0.9rem; }
+        .entry-for { font-size:0.8rem; color:var(--accent-color); font-style:italic; }
+        .entry-remarks { color:var(--muted-text); font-size:0.8rem; }
+        .entry-amount { font-weight:bold; font-size:1rem; margin-right:10px; text-align:right; }
+        .amount-in { color:var(--primary-green); }
+        .amount-out { color:var(--primary-red); }
+        .entry-actions { display:flex; gap:5px; }
+        .entry-actions button { background:none; border:none; color:var(--muted-text); cursor:pointer; padding:5px; border-radius:4px; transition:all 0.3s ease; font-size:0.8rem; }
+        .entry-actions button:hover { color:var(--light-text); background:var(--dark-border); }
+        .edit-btn:hover { color:var(--primary-green) !important; }
+        .delete-btn:hover { color:var(--primary-red) !important; }
+        .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.7); z-index:1000; align-items:center; justify-content:center; padding:20px; backdrop-filter:blur(5px); }
+        .modal-content { background:var(--dark-card); border-radius:var(--border-radius); width:100%; max-width:500px; box-shadow:0 25px 50px -12px rgba(0,0,0,0.5); overflow:hidden; border:1px solid var(--dark-border); animation:modalAppear 0.3s ease; }
+        @keyframes modalAppear { from { opacity:0; transform:translateY(-20px); } to { opacity:1; transform:translateY(0); } }
+        .modal-header { padding:15px 20px; background:var(--dark-surface); color:var(--light-text); display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--dark-border); }
+        .modal-header h2 { font-size:1.2rem; }
+        .close-btn { background:none; border:none; color:var(--muted-text); font-size:1.3rem; cursor:pointer; transition:color 0.3s ease; }
+        .close-btn:hover { color:var(--light-text); }
+        .modal-body { padding:20px; }
+        .form-group { margin-bottom:15px; }
+        .form-group label { display:block; margin-bottom:6px; font-weight:500; color:var(--muted-text); font-size:0.9rem; }
+        .form-group input, .form-group select, .form-group textarea { width:100%; padding:12px; border:1px solid var(--dark-border); border-radius:8px; font-size:0.9rem; background:var(--dark-surface); color:var(--light-text); transition:border-color 0.3s ease; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline:none; border-color:var(--accent-color); }
+        .form-group textarea { resize:vertical; min-height:80px; }
+        .form-actions { display:flex; justify-content:flex-end; gap:8px; margin-top:15px; }
+        .items-list { max-height:300px; overflow-y:auto; margin:15px 0; border-radius:8px; border:1px solid var(--dark-border); }
+        .item-row { display:flex; justify-content:space-between; padding:12px; border-bottom:1px solid var(--dark-border); transition:background-color 0.2s ease; }
+        .item-row:hover { background:var(--dark-surface); }
+        .item-row:last-child { border-bottom:none; }
+        .item-actions { display:flex; gap:8px; }
+        .item-actions button { background:none; border:none; cursor:pointer; color:var(--muted-text); transition:color 0.3s ease; font-size:0.8rem; }
+        .item-actions button:hover { color:var(--light-text); }
+        footer { position:fixed; bottom:0; left:0; width:100%; background:var(--dark-surface); color:var(--muted-text); text-align:center; padding:10px; font-size:0.7rem; border-top:1px solid var(--dark-border); }
+        .notification { position:fixed; top:20px; right:20px; padding:12px 16px; border-radius:var(--border-radius); color:white; font-weight:bold; z-index:1100; display:none; box-shadow:var(--box-shadow); animation:slideIn 0.3s ease; font-size:0.9rem; }
+        @keyframes slideIn { from { opacity:0; transform:translateX(100%); } to { opacity:1; transform:translateX(0); } }
+        .notification.success { background:linear-gradient(135deg,var(--primary-green),#059669); }
+        .notification.error { background:linear-gradient(135deg,var(--primary-red),#dc2626); }
+        .loading { display:inline-block; width:16px; height:16px; border:2px solid rgba(255,255,255,.3); border-radius:50%; border-top-color:#fff; animation:spin 1s ease-in-out infinite; }
+        @keyframes spin { to { transform:rotate(360deg); } }
+        .no-entries { text-align:center; padding:30px 15px; color:var(--muted-text); }
+        .toggle-icon { transition:transform 0.3s ease; }
+        .toggle-icon.rotated { transform:rotate(180deg); }
+        ::-webkit-scrollbar { width:6px; }
+        ::-webkit-scrollbar-track { background:var(--dark-surface); border-radius:10px; }
+        ::-webkit-scrollbar-thumb { background:var(--dark-border); border-radius:10px; }
+        ::-webkit-scrollbar-thumb:hover { background:var(--accent-color); }
+        @media (max-width:480px) { .utility-buttons { grid-template-columns:1fr 1fr; } .entry-content { flex-wrap:wrap; } .entry-amount { margin-right:0; width:100%; text-align:left; margin-top:4px; } }
     </style>
 </head>
-
 <body>
 
-    <!-- ===== HEADER ===== -->
     <header>
         <div class="container">
             <h1><i class="fas fa-money-bill-wave"></i> Expenses Tracker</h1>
@@ -620,23 +130,12 @@
 
     <div class="container">
 
-        <!-- ===== SUMMARY CARD ===== -->
         <div class="summary-card">
-            <div class="summary-row">
-                <span class="summary-label">Net Balance</span>
-                <span class="summary-amount positive" id="net-balance">₹0.00</span>
-            </div>
-            <div class="summary-row">
-                <span class="summary-label">Total Cash In</span>
-                <span class="summary-amount positive" id="total-in">₹0.00</span>
-            </div>
-            <div class="summary-row">
-                <span class="summary-label">Total Cash Out</span>
-                <span class="summary-amount negative" id="total-out">₹0.00</span>
-            </div>
+            <div class="summary-row"><span class="summary-label">Net Balance</span><span class="summary-amount positive" id="net-balance">₹0.00</span></div>
+            <div class="summary-row"><span class="summary-label">Total Cash In</span><span class="summary-amount positive" id="total-in">₹0.00</span></div>
+            <div class="summary-row"><span class="summary-label">Total Cash Out</span><span class="summary-amount negative" id="total-out">₹0.00</span></div>
         </div>
 
-        <!-- ===== FILTERS (collapsible) ===== -->
         <div class="filters-header" id="filters-header">
             <h2><i class="fas fa-filter"></i> Filters</h2>
             <i class="fas fa-chevron-down toggle-icon" id="filters-toggle"></i>
@@ -680,194 +179,118 @@
                     <input type="date" id="date-to" />
                 </div>
             </div>
-            <button class="btn btn-secondary" id="apply-filters" style="margin-top:10px;width:100%;">
-                <i class="fas fa-search"></i> Apply Filters
-            </button>
-            <button class="btn btn-secondary" id="clear-filters" style="margin-top:5px;width:100%;">
-                <i class="fas fa-times"></i> Clear Filters
-            </button>
+            <button class="btn btn-secondary" id="apply-filters" style="margin-top:10px;width:100%;"><i class="fas fa-search"></i> Apply Filters</button>
+            <button class="btn btn-secondary" id="clear-filters" style="margin-top:5px;width:100%;"><i class="fas fa-times"></i> Clear Filters</button>
         </div>
 
-        <!-- ===== MAIN ACTION BUTTONS ===== -->
         <div class="action-buttons">
-            <button class="btn btn-green" id="cash-in-btn">
-                <i class="fas fa-plus-circle"></i> Cash In
-            </button>
-            <button class="btn btn-red" id="cash-out-btn">
-                <i class="fas fa-minus-circle"></i> Cash Out
-            </button>
+            <button class="btn btn-green" id="cash-in-btn"><i class="fas fa-plus-circle"></i> Cash In</button>
+            <button class="btn btn-red" id="cash-out-btn"><i class="fas fa-minus-circle"></i> Cash Out</button>
         </div>
 
-        <!-- ===== UTILITY BUTTONS (added "For" button) ===== -->
         <div class="utility-buttons">
-            <button class="btn btn-secondary" id="export-btn">
-                <i class="fas fa-file-export"></i> Export
-            </button>
-            <button class="btn btn-secondary" id="view-all-btn">
-                <i class="fas fa-list"></i> View All
-            </button>
-            <button class="btn btn-secondary" id="manage-categories-btn">
-                <i class="fas fa-tags"></i> Categories
-            </button>
-            <button class="btn btn-secondary" id="manage-for-btn">
-                <i class="fas fa-tag"></i> For
-            </button>
-            <button class="btn btn-secondary" id="import-btn">
-                <i class="fas fa-file-import"></i> Import
-            </button>
+            <button class="btn btn-secondary" id="export-btn"><i class="fas fa-file-export"></i> Export</button>
+            <button class="btn btn-secondary" id="view-all-btn"><i class="fas fa-list"></i> View All</button>
+            <button class="btn btn-secondary" id="manage-categories-btn"><i class="fas fa-tags"></i> Categories</button>
+            <button class="btn btn-secondary" id="manage-for-btn"><i class="fas fa-tag"></i> For</button>
+            <button class="btn btn-secondary" id="import-btn"><i class="fas fa-file-import"></i> Import</button>
         </div>
 
-        <!-- ===== ENTRIES LIST ===== -->
         <div class="entries-section">
             <div class="entries-header">
                 <h2><i class="fas fa-history"></i> Recent Entries</h2>
                 <div class="bulk-actions" id="bulk-actions">
                     <span id="selected-count" style="font-size:0.8rem;color:var(--muted-text);">0 selected</span>
-                    <button class="btn btn-red btn-small" id="delete-selected-btn">
-                        <i class="fas fa-trash"></i> Delete
-                    </button>
+                    <button class="btn btn-red btn-small" id="delete-selected-btn"><i class="fas fa-trash"></i> Delete</button>
                 </div>
             </div>
             <div class="entries-list" id="entries-list">
-                <div class="no-entries">
-                    <i class="fas fa-receipt" style="font-size:2.5rem;margin-bottom:10px;opacity:0.5;"></i>
-                    <p>No entries yet. Add your first expense or income!</p>
-                </div>
+                <div class="no-entries"><i class="fas fa-receipt" style="font-size:2.5rem;margin-bottom:10px;opacity:0.5;"></i><p>No entries yet. Add your first expense or income!</p></div>
             </div>
         </div>
     </div>
 
-    <!-- ============================================================ -->
-    <!-- ===== ENTRY MODAL (Cash In / Cash Out) ===== -->
-    <!-- ============================================================ -->
+    <!-- ===== ENTRY MODAL (with searchable fields) ===== -->
     <div class="modal" id="entry-modal">
         <div class="modal-content">
-            <div class="modal-header">
-                <h2 id="modal-title">Add Entry</h2>
-                <button class="close-btn">&times;</button>
-            </div>
+            <div class="modal-header"><h2 id="modal-title">Add Entry</h2><button class="close-btn">&times;</button></div>
             <div class="modal-body">
                 <form id="entry-form">
                     <input type="hidden" id="entry-id" />
-                    <!-- Date -->
-                    <div class="form-group">
-                        <label for="entry-date">Date *</label>
-                        <input type="date" id="entry-date" required />
-                    </div>
-                    <!-- Amount -->
-                    <div class="form-group">
-                        <label for="entry-amount">Amount *</label>
-                        <input type="number" id="entry-amount" min="0" step="0.01" placeholder="0.00" required />
-                    </div>
-                    <!-- Category -->
+                    <div class="form-group"><label for="entry-date">Date *</label><input type="date" id="entry-date" required /></div>
+                    <div class="form-group"><label for="entry-amount">Amount *</label><input type="number" id="entry-amount" min="0" step="0.01" placeholder="0.00" required /></div>
+                    
+                    <!-- Category – searchable -->
                     <div class="form-group">
                         <label for="entry-category">Category *</label>
-                        <select id="entry-category" required>
-                            <option value="">Select Category</option>
-                        </select>
+                        <input type="text" id="entry-category" list="category-list" placeholder="Start typing..." required />
+                        <datalist id="category-list"></datalist>
                     </div>
-                    <!-- === NEW: For field === -->
+                    
+                    <!-- For – searchable -->
                     <div class="form-group">
                         <label for="entry-for">For</label>
-                        <select id="entry-for">
-                            <option value="">Select (optional)</option>
-                        </select>
+                        <input type="text" id="entry-for" list="for-list" placeholder="Start typing..." />
+                        <datalist id="for-list"></datalist>
                     </div>
-                    <!-- Remarks -->
-                    <div class="form-group">
-                        <label for="entry-remarks">Remarks / Comments</label>
-                        <textarea id="entry-remarks" placeholder="Add any remarks or comments"></textarea>
-                    </div>
+                    
+                    <div class="form-group"><label for="entry-remarks">Remarks / Comments</label><textarea id="entry-remarks" placeholder="Add any remarks or comments"></textarea></div>
                     <div class="form-actions">
                         <button type="button" class="btn btn-secondary" id="cancel-btn">Cancel</button>
-                        <button type="submit" class="btn" id="save-btn">
-                            <span id="save-btn-text">Save Entry</span>
-                            <div class="loading" id="save-loading" style="display:none;"></div>
-                        </button>
+                        <button type="submit" class="btn" id="save-btn"><span id="save-btn-text">Save Entry</span><div class="loading" id="save-loading" style="display:none;"></div></button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 
-    <!-- ============================================================ -->
-    <!-- ===== CATEGORIES MODAL (unchanged, but now includes "For" management) ===== -->
-    <!-- ============================================================ -->
+    <!-- ===== CATEGORIES MODAL ===== -->
     <div class="modal" id="categories-modal">
         <div class="modal-content">
-            <div class="modal-header">
-                <h2>Manage Categories</h2>
-                <button class="close-btn">&times;</button>
-            </div>
+            <div class="modal-header"><h2>Manage Categories</h2><button class="close-btn">&times;</button></div>
             <div class="modal-body">
-                <!-- Add Category -->
                 <div class="form-group">
                     <label for="new-category">Add New Category</label>
                     <div style="display:flex;gap:8px;">
                         <input type="text" id="new-category" placeholder="Category name" style="flex:1;" />
-                        <select id="new-category-type" style="flex:1;">
-                            <option value="OUT">Expense</option>
-                            <option value="IN">Income</option>
-                            <option value="BOTH">Both</option>
-                        </select>
+                        <select id="new-category-type" style="flex:1;"><option value="OUT">Expense</option><option value="IN">Income</option><option value="BOTH">Both</option></select>
                         <button class="btn btn-green btn-small" id="add-category-btn">Add</button>
                     </div>
                 </div>
                 <div class="items-list" id="categories-list"></div>
-                <div class="form-actions">
-                    <button class="btn btn-secondary" id="close-categories-btn">Close</button>
-                </div>
+                <div class="form-actions"><button class="btn btn-secondary" id="close-categories-btn">Close</button></div>
             </div>
         </div>
     </div>
 
-    <!-- ============================================================ -->
-    <!-- ===== FOR ITEMS MODAL (NEW) ===== -->
-    <!-- ============================================================ -->
+    <!-- ===== FOR ITEMS MODAL ===== -->
     <div class="modal" id="for-modal">
         <div class="modal-content">
-            <div class="modal-header">
-                <h2>Manage "For" Items</h2>
-                <button class="close-btn" id="close-for-modal-btn">&times;</button>
-            </div>
+            <div class="modal-header"><h2>Manage "For" Items</h2><button class="close-btn" id="close-for-modal-btn">&times;</button></div>
             <div class="modal-body">
-                <!-- Add For Item -->
                 <div class="form-group">
                     <label for="new-for-item">Add New "For" Item</label>
                     <div style="display:flex;gap:8px;">
-                        <input type="text" id="new-for-item" placeholder="e.g. Project, Client, etc." style="flex:1;" />
-                        <select id="new-for-type" style="flex:1;">
-                            <option value="OUT">Expense</option>
-                            <option value="IN">Income</option>
-                            <option value="BOTH">Both</option>
-                        </select>
+                        <input type="text" id="new-for-item" placeholder="e.g. Project, Client" style="flex:1;" />
+                        <select id="new-for-type" style="flex:1;"><option value="OUT">Expense</option><option value="IN">Income</option><option value="BOTH">Both</option></select>
                         <button class="btn btn-green btn-small" id="add-for-btn">Add</button>
                     </div>
                 </div>
                 <div class="items-list" id="for-items-list"></div>
-                <div class="form-actions">
-                    <button class="btn btn-secondary" id="close-for-btn">Close</button>
-                </div>
+                <div class="form-actions"><button class="btn btn-secondary" id="close-for-btn">Close</button></div>
             </div>
         </div>
     </div>
 
-    <!-- ============================================================ -->
-    <!-- ===== IMPORT MODAL (unchanged) ===== -->
-    <!-- ============================================================ -->
+    <!-- ===== IMPORT MODAL ===== -->
     <div class="modal" id="import-modal">
         <div class="modal-content">
-            <div class="modal-header">
-                <h2>Import Entries</h2>
-                <button class="close-btn">&times;</button>
-            </div>
+            <div class="modal-header"><h2>Import Entries</h2><button class="close-btn">&times;</button></div>
             <div class="modal-body">
                 <div class="form-group">
                     <label for="import-file">Select CSV or Excel File</label>
                     <input type="file" id="import-file" accept=".csv,.xlsx,.xls" />
-                    <small style="color:var(--muted-text);font-size:0.8rem;">
-                        File should have columns: Date, Type, Amount, Category, For, Remarks
-                    </small>
+                    <small style="color:var(--muted-text);font-size:0.8rem;">File should have columns: Date, Type, Amount, Category, For, Remarks</small>
                 </div>
                 <div class="form-actions">
                     <button class="btn btn-secondary" id="cancel-import-btn">Cancel</button>
@@ -877,25 +300,15 @@
         </div>
     </div>
 
-    <!-- ===== NOTIFICATION ===== -->
     <div class="notification" id="notification"></div>
 
-    <footer>
-        <div class="container">Expenses Tracker &copy; 2025 | Track your finances easily</div>
-    </footer>
+    <footer><div class="container">Expenses Tracker &copy; 2025 | Track your finances easily</div></footer>
 
-    <!-- ============================================================ -->
-    <!-- ===== JAVASCRIPT ===== -->
-    <!-- ============================================================ -->
     <script>
-        // ================================================================
-        // CONFIGURATION – UPDATE WITH YOUR GOOGLE APPS SCRIPT URL
-        // ================================================================
+        // ===== CONFIGURATION =====
         const API_URL = 'https://script.google.com/macros/s/AKfycbxI7ruRm8U14U0Gpg0zJrGCaCaW0L3pPyf1aJccHwRXmj10oGAxlnASzXC8b1kSDDGg/exec';
 
-        // ================================================================
-        // DOM REFS
-        // ================================================================
+        // ===== DOM REFS =====
         const cashInBtn = document.getElementById('cash-in-btn');
         const cashOutBtn = document.getElementById('cash-out-btn');
         const exportBtn = document.getElementById('export-btn');
@@ -932,9 +345,7 @@
         const filtersContent = document.getElementById('filters-content');
         const filtersToggle = document.getElementById('filters-toggle');
 
-        // ================================================================
-        // STATE
-        // ================================================================
+        // ===== STATE =====
         let currentEntries = [];
         let currentCategories = [];
         let currentForItems = [];
@@ -944,12 +355,9 @@
         let currentFilters = {};
         let sheetName = 'Expenses Tracker';
 
-        // Set today's date as default
         document.getElementById('entry-date').valueAsDate = new Date();
 
-        // ================================================================
-        // INIT
-        // ================================================================
+        // ===== INIT =====
         document.addEventListener('DOMContentLoaded', function() {
             loadSheetInfo();
             loadSummary();
@@ -960,32 +368,24 @@
             setupFilterDates();
         });
 
-        // ================================================================
-        // SHEET INFO (dynamic app name)
-        // ================================================================
+        // ===== SHEET INFO =====
         function loadSheetInfo() {
             fetch(`${API_URL}?action=getSheetInfo`)
                 .then(r => r.json())
                 .then(data => {
-                    if (data.sheetName) {
-                        sheetName = data.sheetName;
-                        updateAppName();
-                    }
+                    if (data.sheetName) { sheetName = data.sheetName;
+                        updateAppName(); }
                 })
                 .catch(() => updateAppName());
         }
 
         function updateAppName() {
             document.title = sheetName;
-            document.querySelector('header h1').innerHTML =
-                `<i class="fas fa-money-bill-wave"></i> ${sheetName}`;
-            document.querySelector('footer .container').innerHTML =
-                `${sheetName} &copy; 2025 | Track your finances easily`;
+            document.querySelector('header h1').innerHTML = `<i class="fas fa-money-bill-wave"></i> ${sheetName}`;
+            document.querySelector('footer .container').innerHTML = `${sheetName} &copy; 2025 | Track your finances easily`;
         }
 
-        // ================================================================
-        // EVENT LISTENERS
-        // ================================================================
+        // ===== EVENT LISTENERS =====
         function setupEventListeners() {
             cashInBtn.addEventListener('click', () => openEntryModal('in'));
             cashOutBtn.addEventListener('click', () => openEntryModal('out'));
@@ -999,7 +399,6 @@
             deleteSelectedBtn.addEventListener('click', deleteSelectedEntries);
             filtersHeader.addEventListener('click', toggleFilters);
 
-            // Close buttons
             closeBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
                     entryModal.style.display = 'none';
@@ -1016,7 +415,6 @@
             cancelImportBtn.addEventListener('click', () => importModal.style.display = 'none');
             processImportBtn.addEventListener('click', processImport);
 
-            // Click outside modal to close
             window.addEventListener('click', (e) => {
                 if (e.target === entryModal) { entryModal.style.display = 'none';
                     resetForm(); }
@@ -1036,11 +434,9 @@
         }
 
         function setupFilterDates() {
-            const now = new Date();
-            const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
-            const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0);
-            document.getElementById('date-from').valueAsDate = firstDay;
-            document.getElementById('date-to').valueAsDate = lastDay;
+            // Set date inputs to empty – user will choose manually
+            document.getElementById('date-from').value = '';
+            document.getElementById('date-to').value = '';
         }
 
         function toggleFilters() {
@@ -1048,9 +444,7 @@
             filtersToggle.classList.toggle('rotated');
         }
 
-        // ================================================================
-        // INDIAN CURRENCY FORMAT
-        // ================================================================
+        // ===== CURRENCY =====
         function formatIndianCurrency(amount) {
             if (!amount && amount !== 0) return '₹0.00';
             const num = parseFloat(amount);
@@ -1069,13 +463,10 @@
             return '₹' + formatted + '.' + decPart;
         }
 
-        // ================================================================
-        // ENTRY MODAL
-        // ================================================================
+        // ===== ENTRY MODAL =====
         function openEntryModal(type, entry = null) {
             currentEntryType = type;
             isEditing = entry !== null;
-
             if (isEditing) {
                 modalTitle.textContent = 'Edit Entry';
                 saveBtn.className = 'btn btn-green';
@@ -1091,17 +482,14 @@
                 saveBtnText.textContent = type === 'in' ? 'Add Income' : 'Add Expense';
                 resetForm();
             }
-
             updateCategoryDropdown(currentEntryType);
             updateForDropdown(currentEntryType);
-
             if (isEditing) {
                 setTimeout(() => {
                     document.getElementById('entry-category').value = entry.Category || '';
                     document.getElementById('entry-for').value = entry.For || '';
                 }, 100);
             }
-
             entryModal.style.display = 'flex';
         }
 
@@ -1109,55 +497,67 @@
             entryIdField.value = '';
             document.getElementById('entry-date').valueAsDate = new Date();
             document.getElementById('entry-amount').value = '';
-            document.getElementById('entry-category').selectedIndex = 0;
-            document.getElementById('entry-for').selectedIndex = 0;
+            document.getElementById('entry-category').value = '';
+            document.getElementById('entry-for').value = '';
             document.getElementById('entry-remarks').value = '';
             isEditing = false;
             modalTitle.textContent = 'Add Entry';
             saveBtnText.textContent = 'Save Entry';
         }
 
-        // ================================================================
-        // DROPDOWN HELPERS
-        // ================================================================
+        // ===== DROPDOWN POPULATION (searchable via datalist) =====
         function updateCategoryDropdown(type) {
-            const sel = document.getElementById('entry-category');
-            sel.innerHTML = '<option value="">Select Category</option>';
+            const input = document.getElementById('entry-category');
+            const datalist = document.getElementById('category-list');
+            datalist.innerHTML = '';
             currentCategories.forEach(cat => {
-                if (cat.Type === 'BOTH' ||
-                    (type === 'in' && cat.Type === 'IN') ||
-                    (type === 'out' && cat.Type === 'OUT')) {
+                if (cat.Type === 'BOTH' || (type === 'in' && cat.Type === 'IN') || (type === 'out' && cat.Type === 'OUT')) {
                     const opt = document.createElement('option');
                     opt.value = cat.CategoryName;
-                    opt.textContent = cat.CategoryName;
-                    sel.appendChild(opt);
+                    datalist.appendChild(opt);
                 }
             });
+            // If editing, the value is set later; otherwise clear it
+            if (!isEditing) input.value = '';
         }
 
         function updateForDropdown(type) {
-            const sel = document.getElementById('entry-for');
-            sel.innerHTML = '<option value="">Select (optional)</option>';
+            const input = document.getElementById('entry-for');
+            const datalist = document.getElementById('for-list');
+            datalist.innerHTML = '';
             currentForItems.forEach(item => {
-                if (item.Type === 'BOTH' ||
-                    (type === 'in' && item.Type === 'IN') ||
-                    (type === 'out' && item.Type === 'OUT')) {
+                if (item.Type === 'BOTH' || (type === 'in' && item.Type === 'IN') || (type === 'out' && item.Type === 'OUT')) {
                     const opt = document.createElement('option');
                     opt.value = item.ForName;
-                    opt.textContent = item.ForName;
-                    sel.appendChild(opt);
+                    datalist.appendChild(opt);
                 }
             });
+            if (!isEditing) input.value = '';
         }
 
-        // ================================================================
-        // CRUD: SAVE / UPDATE / DELETE ENTRIES
-        // ================================================================
+        // ===== VALIDATION HELPER =====
+        function validateCategoryAndFor(category, forVal) {
+            const categoryExists = currentCategories.some(cat => cat.CategoryName === category);
+            if (!categoryExists) {
+                showNotification('Please select a valid category from the suggestions', 'error');
+                return false;
+            }
+            if (forVal) {
+                const forExists = currentForItems.some(item => item.ForName === forVal);
+                if (!forExists) {
+                    showNotification('Please select a valid "For" item from the suggestions', 'error');
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        // ===== CRUD =====
         function saveEntry() {
             const date = document.getElementById('entry-date').value;
             const amount = document.getElementById('entry-amount').value;
-            const category = document.getElementById('entry-category').value;
-            const forVal = document.getElementById('entry-for').value;
+            const category = document.getElementById('entry-category').value.trim();
+            const forVal = document.getElementById('entry-for').value.trim();
             const remarks = document.getElementById('entry-remarks').value;
             const type = currentEntryType.toUpperCase();
 
@@ -1165,6 +565,7 @@
                 showNotification('Please fill all required fields', 'error');
                 return;
             }
+            if (!validateCategoryAndFor(category, forVal)) return;
 
             saveBtnText.style.display = 'none';
             saveLoading.style.display = 'inline-block';
@@ -1183,29 +584,25 @@
                 .then(r => r.json())
                 .then(data => {
                     if (data.success) {
-                        showNotification('Entry added successfully!', 'success');
+                        showNotification('Entry added!', 'success');
                         entryModal.style.display = 'none';
                         loadSummaryWithFilters();
                         loadEntriesWithFilters();
                         resetForm();
-                    } else throw new Error(data.error || 'Failed to add entry');
+                    } else throw new Error(data.error || 'Failed');
                 })
-                .catch(err => {
-                    console.error(err);
-                    showNotification('Error: ' + err.message, 'error');
-                })
-                .finally(() => {
-                    saveBtnText.style.display = 'inline-block';
+                .catch(err => { console.error(err);
+                    showNotification('Error: ' + err.message, 'error'); })
+                .finally(() => { saveBtnText.style.display = 'inline-block';
                     saveLoading.style.display = 'none';
-                    saveBtn.disabled = false;
-                });
+                    saveBtn.disabled = false; });
         }
 
         function updateEntry() {
             const date = document.getElementById('entry-date').value;
             const amount = document.getElementById('entry-amount').value;
-            const category = document.getElementById('entry-category').value;
-            const forVal = document.getElementById('entry-for').value;
+            const category = document.getElementById('entry-category').value.trim();
+            const forVal = document.getElementById('entry-for').value.trim();
             const remarks = document.getElementById('entry-remarks').value;
             const type = currentEntryType.toUpperCase();
             const entryId = entryIdField.value;
@@ -1214,6 +611,7 @@
                 showNotification('Please fill all required fields', 'error');
                 return;
             }
+            if (!validateCategoryAndFor(category, forVal)) return;
 
             saveBtnText.style.display = 'none';
             saveLoading.style.display = 'inline-block';
@@ -1238,17 +636,13 @@
                         loadSummaryWithFilters();
                         loadEntriesWithFilters();
                         resetForm();
-                    } else throw new Error(data.error || 'Failed to update entry');
+                    } else throw new Error(data.error || 'Failed');
                 })
-                .catch(err => {
-                    console.error(err);
-                    showNotification('Error: ' + err.message, 'error');
-                })
-                .finally(() => {
-                    saveBtnText.style.display = 'inline-block';
+                .catch(err => { console.error(err);
+                    showNotification('Error: ' + err.message, 'error'); })
+                .finally(() => { saveBtnText.style.display = 'inline-block';
                     saveLoading.style.display = 'none';
-                    saveBtn.disabled = false;
-                });
+                    saveBtn.disabled = false; });
         }
 
         function deleteEntry(entryId) {
@@ -1259,20 +653,15 @@
             fetch(API_URL, { method: 'POST', body: fd })
                 .then(r => r.json())
                 .then(data => {
-                    if (data.success) {
-                        showNotification('Entry deleted', 'success');
+                    if (data.success) { showNotification('Entry deleted', 'success');
                         loadSummaryWithFilters();
-                        loadEntriesWithFilters();
-                    } else throw new Error(data.error || 'Delete failed');
+                        loadEntriesWithFilters(); } else throw new Error(data.error || 'Delete failed');
                 })
                 .catch(err => showNotification('Error: ' + err.message, 'error'));
         }
 
         function deleteSelectedEntries() {
-            if (selectedEntries.size === 0) {
-                showNotification('No entries selected', 'error');
-                return;
-            }
+            if (selectedEntries.size === 0) { showNotification('No entries selected', 'error'); return; }
             if (!confirm(`Delete ${selectedEntries.size} selected entries?`)) return;
             const fd = new URLSearchParams();
             fd.append('action', 'deleteMultipleEntries');
@@ -1280,20 +669,15 @@
             fetch(API_URL, { method: 'POST', body: fd })
                 .then(r => r.json())
                 .then(data => {
-                    if (data.success) {
-                        showNotification(data.message, 'success');
+                    if (data.success) { showNotification(data.message, 'success');
                         selectedEntries.clear();
                         updateBulkActions();
                         loadSummaryWithFilters();
-                        loadEntriesWithFilters();
-                    } else throw new Error(data.error || 'Delete failed');
+                        loadEntriesWithFilters(); } else throw new Error(data.error || 'Delete failed');
                 })
                 .catch(err => showNotification('Error: ' + err.message, 'error'));
         }
 
-        // ================================================================
-        // SELECTION / BULK ACTIONS
-        // ================================================================
         function toggleEntrySelection(entryId, checkbox) {
             if (checkbox.checked) selectedEntries.add(entryId);
             else selectedEntries.delete(entryId);
@@ -1306,14 +690,13 @@
             bulkActions.classList.toggle('show', count > 0);
         }
 
-        // ================================================================
-        // LOAD DATA
-        // ================================================================
+        // ===== LOAD DATA =====
         function loadSummary() {
             fetch(`${API_URL}?action=getSummary`)
                 .then(r => r.json())
                 .then(data => updateSummaryUI(data))
-                .catch(() => showNotification('Error loading summary', 'error'));
+                .catch(err => { console.error(err);
+                    showNotification('Error loading summary', 'error'); });
         }
 
         function loadSummaryWithFilters() {
@@ -1323,7 +706,8 @@
             fetch(`${API_URL}?${params.toString()}`)
                 .then(r => r.json())
                 .then(data => updateSummaryUI(data))
-                .catch(() => showNotification('Error loading summary', 'error'));
+                .catch(err => { console.error(err);
+                    showNotification('Error loading summary', 'error'); });
         }
 
         function updateSummaryUI(data) {
@@ -1341,7 +725,8 @@
                 .then(r => r.json())
                 .then(data => { currentEntries = data.entries || [];
                     displayEntries(currentEntries); })
-                .catch(() => showNotification('Error loading entries', 'error'));
+                .catch(err => { console.error(err);
+                    showNotification('Error loading entries', 'error'); });
         }
 
         function loadEntriesWithFilters() {
@@ -1352,12 +737,10 @@
                 .then(r => r.json())
                 .then(data => { currentEntries = data.entries || [];
                     displayEntries(currentEntries); })
-                .catch(() => showNotification('Error loading entries', 'error'));
+                .catch(err => { console.error(err);
+                    showNotification('Error loading entries', 'error'); });
         }
 
-        // ================================================================
-        // DISPLAY ENTRIES (includes "For" field)
-        // ================================================================
         function displayEntries(entries) {
             const list = document.getElementById('entries-list');
             if (!entries.length) {
@@ -1374,8 +757,7 @@
                 const amtClass = entry.Type === 'IN' ? 'amount-in' : 'amount-out';
                 const sign = entry.Type === 'IN' ? '+' : '-';
                 div.innerHTML = `
-              <input type="checkbox" class="entry-checkbox" ${selectedEntries.has(entry.EntryID) ? 'checked' : ''}
-                     onchange="toggleEntrySelection('${entry.EntryID}', this)">
+              <input type="checkbox" class="entry-checkbox" ${selectedEntries.has(entry.EntryID) ? 'checked' : ''} onchange="toggleEntrySelection('${entry.EntryID}', this)">
               <div class="entry-content">
                 <div class="entry-details">
                   <div class="entry-date">${fDate}</div>
@@ -1394,9 +776,7 @@
             });
         }
 
-        // ================================================================
-        // CATEGORIES
-        // ================================================================
+        // ===== CATEGORIES =====
         function loadCategories() {
             fetch(`${API_URL}?action=getCategories`)
                 .then(r => r.json())
@@ -1405,7 +785,8 @@
                     updateCategoryFilters();
                     updateCategoryDropdown('out');
                 })
-                .catch(() => showNotification('Error loading categories', 'error'));
+                .catch(err => { console.error(err);
+                    showNotification('Error loading Categories', 'error'); });
         }
 
         function updateCategoryFilters() {
@@ -1463,12 +844,10 @@
             fetch(API_URL, { method: 'POST', body: fd })
                 .then(r => r.json())
                 .then(data => {
-                    if (data.success) {
-                        showNotification('Category added!', 'success');
+                    if (data.success) { showNotification('Category added!', 'success');
                         document.getElementById('new-category').value = '';
                         loadCategories();
-                        displayCategoriesList();
-                    } else throw new Error(data.error || 'Failed');
+                        displayCategoriesList(); } else throw new Error(data.error || 'Failed');
                 })
                 .catch(err => showNotification('Error: ' + err.message, 'error'));
         }
@@ -1506,9 +885,7 @@
                 .catch(err => showNotification('Error: ' + err.message, 'error'));
         }
 
-        // ================================================================
-        // FOR ITEMS (NEW)
-        // ================================================================
+        // ===== FOR ITEMS =====
         function loadForItems() {
             fetch(`${API_URL}?action=getForItems`)
                 .then(r => r.json())
@@ -1517,7 +894,8 @@
                     updateForFilters();
                     updateForDropdown('out');
                 })
-                .catch(() => showNotification('Error loading "For" items', 'error'));
+                .catch(err => { console.error(err);
+                    showNotification('Error loading ForItems', 'error'); });
         }
 
         function updateForFilters() {
@@ -1575,12 +953,10 @@
             fetch(API_URL, { method: 'POST', body: fd })
                 .then(r => r.json())
                 .then(data => {
-                    if (data.success) {
-                        showNotification('"For" item added!', 'success');
+                    if (data.success) { showNotification('"For" item added!', 'success');
                         document.getElementById('new-for-item').value = '';
                         loadForItems();
-                        displayForItemsList();
-                    } else throw new Error(data.error || 'Failed');
+                        displayForItemsList(); } else throw new Error(data.error || 'Failed');
                 })
                 .catch(err => showNotification('Error: ' + err.message, 'error'));
         }
@@ -1618,9 +994,7 @@
                 .catch(err => showNotification('Error: ' + err.message, 'error'));
         }
 
-        // ================================================================
-        // FILTERS
-        // ================================================================
+        // ===== FILTERS =====
         function applyFilters() {
             const month = document.getElementById('month-filter').value;
             const category = document.getElementById('category-filter').value;
@@ -1628,7 +1002,6 @@
             const type = document.getElementById('type-filter').value;
             const dateFrom = document.getElementById('date-from').value;
             const dateTo = document.getElementById('date-to').value;
-
             currentFilters = {};
             if (month) currentFilters.month = month;
             if (category) currentFilters.category = category;
@@ -1636,7 +1009,6 @@
             if (type) currentFilters.type = type;
             if (dateFrom) currentFilters.dateFrom = dateFrom;
             if (dateTo) currentFilters.dateTo = dateTo;
-
             loadSummaryWithFilters();
             loadEntriesWithFilters();
             showNotification('Filters applied!', 'success');
@@ -1656,9 +1028,7 @@
 
         function viewAllEntries() { clearFilters(); }
 
-        // ================================================================
-        // EXPORT
-        // ================================================================
+        // ===== EXPORT =====
         function exportData() {
             const headers = ['Date', 'Type', 'Amount', 'Category', 'For', 'Remarks'];
             const rows = [headers];
@@ -1670,7 +1040,8 @@
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `${sheetName.toLowerCase().replace(/\s+/g,'-')}-${new Date().toISOString().split('T')[0]}.csv`;
+            a.download =
+                `${sheetName.toLowerCase().replace(/\s+/g,'-')}-${new Date().toISOString().split('T')[0]}.csv`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
@@ -1678,9 +1049,7 @@
             showNotification('Data exported!', 'success');
         }
 
-        // ================================================================
-        // IMPORT
-        // ================================================================
+        // ===== IMPORT =====
         function processImport() {
             const file = document.getElementById('import-file').files[0];
             if (!file) { showNotification('Select a file', 'error'); return; }
@@ -1742,9 +1111,7 @@
             reader.readAsText(file);
         }
 
-        // ================================================================
-        // NOTIFICATION
-        // ================================================================
+        // ===== NOTIFICATION =====
         function showNotification(message, type) {
             const el = document.getElementById('notification');
             el.textContent = message;
